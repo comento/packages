@@ -9,6 +9,8 @@ import 'dart:async';
 // ignore: unnecessary_import
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +18,7 @@ import 'package:webview_flutter_platform_interface/webview_flutter_platform_inte
 
 import 'android_proxy.dart';
 import 'android_webview.dart' as android_webview;
+import 'initial_gesture_recognizer.dart';
 import 'instance_manager.dart';
 import 'platform_views_service_proxy.dart';
 import 'weak_reference_utils.dart';
@@ -681,7 +684,14 @@ class AndroidWebViewWidget extends PlatformWebViewWidget {
       ) {
         return AndroidViewSurface(
           controller: controller as AndroidViewController,
-          gestureRecognizers: _androidParams.gestureRecognizers,
+          gestureRecognizers: _androidParams.gestureRecognizers.isEmpty
+              ? const <Factory<OneSequenceGestureRecognizer>>{}
+              : <Factory<OneSequenceGestureRecognizer>>{
+                  Factory<InitialGestureRecognizer>(
+                    () => InitialGestureRecognizer(controller),
+                  ),
+                  ..._androidParams.gestureRecognizers,
+                },
           hitTestBehavior: PlatformViewHitTestBehavior.opaque,
         );
       },

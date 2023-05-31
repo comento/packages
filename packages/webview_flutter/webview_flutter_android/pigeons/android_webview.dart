@@ -215,6 +215,8 @@ abstract class WebViewHostApi {
   void setWebChromeClient(int instanceId, int? clientInstanceId);
 
   void setBackgroundColor(int instanceId, int color);
+
+  void setSupportScrollbar(int instanceId, bool support);
 }
 
 /// Flutter API for `WebView`.

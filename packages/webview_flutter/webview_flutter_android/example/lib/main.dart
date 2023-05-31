@@ -94,6 +94,7 @@ class _WebViewExampleState extends State<WebViewExample> {
     )
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x80000000))
+      ..enableScrollbar(false)
       ..setPlatformNavigationDelegate(
         PlatformNavigationDelegate(
           const PlatformNavigationDelegateCreationParams(),

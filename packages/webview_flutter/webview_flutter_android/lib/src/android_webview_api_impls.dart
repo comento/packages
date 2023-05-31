@@ -354,6 +354,12 @@ class WebViewHostApiImpl extends WebViewHostApi {
   Future<void> setBackgroundColorFromInstance(WebView instance, int color) {
     return setBackgroundColor(instanceManager.getIdentifier(instance)!, color);
   }
+
+  /// setSupportScrollbarFromInstance
+  Future<void> setSupportScrollbarFromInstance(WebView instance, bool support) {
+    return setSupportScrollbar(
+        instanceManager.getIdentifier(instance)!, support);
+  }
 }
 
 /// Flutter API implementation for [WebView].

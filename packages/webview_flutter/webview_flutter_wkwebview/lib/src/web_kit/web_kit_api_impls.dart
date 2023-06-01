@@ -1020,6 +1020,17 @@ class WKWebViewHostApiImpl extends WKWebViewHostApi {
     );
   }
 
+  /// setSupportScrollbarForInstances
+  Future<void> setSupportScrollbarForInstances(
+    WKWebView instance,
+    bool allow,
+  ) {
+    return setSupportScrollbar(
+      instanceManager.getIdentifier(instance)!,
+      allow,
+    );
+  }
+
   /// Calls [setCustomUserAgent] with the ids of the provided object instances.
   Future<void> setCustomUserAgentForInstances(
     WKWebView instance,

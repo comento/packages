@@ -587,6 +587,7 @@ NSObject<FlutterMessageCodec> *FWFWKWebViewHostApiGetCodec(void);
 - (nullable NSString *)titleForWebViewWithIdentifier:(NSNumber *)identifier error:(FlutterError *_Nullable *_Nonnull)error;
 - (void)setAllowsBackForwardForWebViewWithIdentifier:(NSNumber *)identifier isAllowed:(NSNumber *)allow error:(FlutterError *_Nullable *_Nonnull)error;
 - (void)setSupportScrollbarForWebViewWithIdentifier:(NSNumber *)identifier support:(NSNumber *)support error:(FlutterError *_Nullable *_Nonnull)error;
+- (void)setSupportOverscrollForWebViewWithIdentifier:(NSNumber *)identifier support:(NSNumber *)support error:(FlutterError *_Nullable *_Nonnull)error;
 - (void)setUserAgentForWebViewWithIdentifier:(NSNumber *)identifier userAgent:(nullable NSString *)userAgent error:(FlutterError *_Nullable *_Nonnull)error;
 - (void)evaluateJavaScriptForWebViewWithIdentifier:(NSNumber *)identifier javaScriptString:(NSString *)javaScriptString completion:(void (^)(id _Nullable, FlutterError *_Nullable))completion;
 @end

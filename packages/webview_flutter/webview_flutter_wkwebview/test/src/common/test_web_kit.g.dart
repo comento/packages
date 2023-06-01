@@ -977,6 +977,8 @@ abstract class TestWKWebViewHostApi {
 
   void setSupportScrollbar(int identifier, bool support);
 
+  void setSupportOverscroll(int identifier, bool support);
+
   void setCustomUserAgent(int identifier, String? userAgent);
 
   Future<Object?> evaluateJavaScript(int identifier, String javaScriptString);
@@ -1328,6 +1330,28 @@ abstract class TestWKWebViewHostApi {
           assert(arg_support != null,
               'Argument for dev.flutter.pigeon.WKWebViewHostApi.setSupportScrollbar was null, expected non-null bool.');
           api.setSupportScrollbar(arg_identifier!, arg_support!);
+          return <Object?>[];
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.WKWebViewHostApi.setSupportOverscroll', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.setSupportOverscroll was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final int? arg_identifier = (args[0] as int?);
+          assert(arg_identifier != null,
+              'Argument for dev.flutter.pigeon.WKWebViewHostApi.setSupportOverscroll was null, expected non-null int.');
+          final bool? arg_support = (args[1] as bool?);
+          assert(arg_support != null,
+              'Argument for dev.flutter.pigeon.WKWebViewHostApi.setSupportOverscroll was null, expected non-null bool.');
+          api.setSupportOverscroll(arg_identifier!, arg_support!);
           return <Object?>[];
         });
       }

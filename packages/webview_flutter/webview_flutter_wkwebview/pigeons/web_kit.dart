@@ -686,6 +686,9 @@ abstract class WKWebViewHostApi {
   @ObjCSelector('setSupportScrollbarForWebViewWithIdentifier:support:')
   void setSupportScrollbar(int identifier, bool support);
 
+  @ObjCSelector('setSupportOverscrollForWebViewWithIdentifier:support:')
+  void setSupportOverscroll(int identifier, bool support);
+
   @ObjCSelector('setUserAgentForWebViewWithIdentifier:userAgent:')
   void setCustomUserAgent(int identifier, String? userAgent);
 

@@ -268,6 +268,14 @@
   [self webViewForIdentifier:identifier].scrollView.showsVerticalScrollIndicator = [self webViewForIdentifier:identifier].scrollView.showsHorizontalScrollIndicator = allow.boolValue;
 }
 
+- (void)
+    setSupportOverscrollForWebViewWithIdentifier:(nonnull NSNumber *)identifier
+                                        support:(nonnull NSNumber *)allow
+                                           error:(FlutterError *_Nullable __autoreleasing *_Nonnull)
+                                                     error {
+  [self webViewForIdentifier:identifier].scrollView.bounces = allow.boolValue;
+}
+
 
 - (void)
     setNavigationDelegateForWebViewWithIdentifier:(nonnull NSNumber *)identifier

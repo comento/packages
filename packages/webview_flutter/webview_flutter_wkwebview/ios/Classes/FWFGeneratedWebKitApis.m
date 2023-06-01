@@ -2146,6 +2146,26 @@ void FWFWKWebViewHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObje
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.WKWebViewHostApi.setSupportOverscroll"
+        binaryMessenger:binaryMessenger
+        codec:FWFWKWebViewHostApiGetCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(setSupportOverscrollForWebViewWithIdentifier:support:error:)], @"FWFWKWebViewHostApi api (%@) doesn't respond to @selector(setSupportOverscrollForWebViewWithIdentifier:support:error:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        NSNumber *arg_identifier = GetNullableObjectAtIndex(args, 0);
+        NSNumber *arg_support = GetNullableObjectAtIndex(args, 1);
+        FlutterError *error;
+        [api setSupportOverscrollForWebViewWithIdentifier:arg_identifier support:arg_support error:&error];
+        callback(wrapResult(nil, error));
+      }];
+    } else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
         initWithName:@"dev.flutter.pigeon.WKWebViewHostApi.setCustomUserAgent"
         binaryMessenger:binaryMessenger
         codec:FWFWKWebViewHostApiGetCodec()];

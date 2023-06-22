@@ -15,89 +15,75 @@ class InitialGestureRecognizer extends OneSequenceGestureRecognizer {
   /// controller for Android Event.
   AndroidViewController androidViewController;
 
-  Timer? _timer;
-  bool _longPressAccepted = false;
-  int? _primaryPointer;
+  final dragDistance = 18.0;
+  bool _isDragging = false;
+  PointerDownEvent? _initialEvent;
 
   final Map<int, List<PointerEvent>> cachedEvents = <int, List<PointerEvent>>{};
-  final Set<int> forwardedPointers = <int>{};
 
   @override
   String get debugDescription => throw UnimplementedError();
 
+  /// pointer up 이벤트가 발생했으므로 이전에 저장한 포인터들을 비워준다.
   @override
-  void didStopTrackingLastPointer(int pointer) {}
-
-  @override
-  void rejectGesture(int pointer) {
-    print('reject && clear!');
-    if (pointer == _primaryPointer) {
-      _stopTimer();
-    }
+  void didStopTrackingLastPointer(int pointer) {
     cachedEvents.clear();
-    forwardedPointers.clear();
-    super.rejectGesture(pointer);
   }
 
+  /// 첫 PointerEvent를 저장한다.
   @override
   void addAllowedPointer(PointerDownEvent event) {
-    print('addPointer!');
+    _initialEvent = event;
     super.addAllowedPointer(event);
-    _primaryPointer = event.pointer;
-    _timer = Timer(
-        const Duration(milliseconds: 40), () => _didExceedDeadline(event));
-  }
-
-  void _didExceedDeadline(PointerDownEvent event) {
-    _longPressAccepted = true;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _stopTimer();
-  }
-
-  void _stopTimer() {
-    if (_timer != null) {
-      _timer!.cancel();
-      _timer = null;
-    }
-  }
-
-  @override
-  void stopTrackingPointer(int pointer) {
-    super.stopTrackingPointer(pointer);
-    forwardedPointers.remove(pointer);
   }
 
   @override
   void handleEvent(PointerEvent event) {
-    if (_longPressAccepted) {
+    if (!_isDragging) {
+      // 드래그인지 판단해서 토글한다.
+      _checkIsDragging(event);
+    }
+    if (_isDragging) {
+      // 드래그라고 판단되면, 캐시해놓은 이전 이벤트까지 controller로 보낸다.
       _dispatchCachedEvents(event);
       _dispatchPointerEvent(event);
     } else {
-      if (!forwardedPointers.contains(event.pointer)) {
-        print('cached!');
-        _cacheEvent(event);
-      }
+      // 아직 드래그인지 판단이 안되므로 일단 캐싱한다.
+      _cacheEvent(event);
     }
     if (event is PointerUpEvent) {
       resolve(GestureDisposition.rejected);
-      _longPressAccepted = false;
+      _isDragging = false;
     } else if (event is PointerCancelEvent) {
       resolve(GestureDisposition.rejected);
-      _longPressAccepted = false;
+      _isDragging = false;
     }
     stopTrackingIfPointerNoLongerDown(event);
   }
 
+  /// 저장해놓은 첫 이벤트와 지금 이벤트의 offset 차이로 drag를 판단한다.
+  void _checkIsDragging(PointerEvent currentEvent) {
+    if (_initialEvent == null) {
+      return;
+    }
+    final double xDistance =
+        (_initialEvent!.position.dx - currentEvent.position.dx).abs();
+    final double yDistance =
+        (_initialEvent!.position.dy - currentEvent.position.dy).abs();
+
+    _isDragging = xDistance >= dragDistance ||
+        yDistance >= dragDistance ||
+        xDistance + yDistance >= dragDistance;
+  }
+
+  /// 캐시해놓은 이전 event들을 보낸다.
   void _dispatchCachedEvents(PointerEvent event) {
     if (cachedEvents.containsKey(event.pointer)) {
-      cachedEvents.remove(event.pointer)!.forEach(_dispatchPointerEvent);
+      cachedEvents[event.pointer]!.forEach(_dispatchPointerEvent);
     }
   }
 
+  /// 포인터 별로 이벤트를 캐시한다.
   void _cacheEvent(PointerEvent event) {
     if (!cachedEvents.containsKey(event.pointer)) {
       cachedEvents[event.pointer] = <PointerEvent>[];
@@ -105,16 +91,17 @@ class InitialGestureRecognizer extends OneSequenceGestureRecognizer {
     cachedEvents[event.pointer]!.add(event);
   }
 
+  /// androidViewController를 이용해 gesture를 accept하지 않고 직접 motionEvent를 보낸다.
+  /// 따라서 gestureArena에서 승리한 제스쳐와 함께 중복으로 motionEvent가 가게된다.
+  /// webView에서는 javascriptChannel을 통해 스와이프 신호를 보내고, 이에 따라
+  /// gestureArena에서 승리한 제스쳐를 disable함으로써 웹뷰의 스와이프만 동작하게 된다.
   Future<void> _dispatchPointerEvent(PointerEvent event) async {
-    print(event);
     if (event is PointerHoverEvent) {
       return;
     }
-
     if (event is PointerDownEvent) {
       _handlePointerDownEvent(event);
     }
-
     _updatePointerPositions(event);
 
     final AndroidMotionEvent? androidEvent = _toAndroidMotionEvent(event);

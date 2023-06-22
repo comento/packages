@@ -682,8 +682,8 @@ class AndroidWebViewWidget extends PlatformWebViewWidget {
           gestureRecognizers: _androidParams.gestureRecognizers.isEmpty
               ? const <Factory<OneSequenceGestureRecognizer>>{}
               : <Factory<OneSequenceGestureRecognizer>>{
-                  Factory<InitialGestureRecognizer>(
-                    () => InitialGestureRecognizer(controller),
+                  Factory<InitialDragGestureRecognizer>(
+                    () => InitialDragGestureRecognizer(controller),
                   ),
                   ..._androidParams.gestureRecognizers,
                 },

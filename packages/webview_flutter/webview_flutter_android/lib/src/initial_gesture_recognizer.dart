@@ -3,19 +3,24 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 
-/// Gesture recognizer that can recognize gesture without arena.
-/// It doesn't accept gesture but can handle it directly using
-/// [AndroidViewController]. So gesture event is duplicated and works
-/// irrespective of each other. Common use-case would be Android webview
-/// with nested gestures.
-class InitialGestureRecognizer extends OneSequenceGestureRecognizer {
-  /// Initialize the object.
-  InitialGestureRecognizer(this.androidViewController);
+/// 네이티브 드래그 제스쳐를 유지하면서 WebView에 드래그 제스쳐를 전달하도록 하는 클래스.
+/// 제스쳐 아레나에서는 오직 하나의 제스쳐만 accept될 수 있고, WebView에서 설정해준
+/// gestureRecognizers들은 한 팀을 이뤄 아레나에 입장한다.
+/// 때문에 accept된 제스쳐가 하나라도 있으면, WebView가 모든 제스쳐 이벤트를 가져가게 된다.
+/// 웹뷰에 있는 스와이퍼 뿐 아니라, 네이티브 스와이프까지 동작하게 하기 위해서는 accept를 하지 않고
+/// 제스쳐 아레나와 관계없이 viewController를 이용해서 직접 제스쳐 이벤트를 송신해준다.
+/// 이렇게 되면 처음에 제스쳐 이벤트가 중복으로 보내지지만, 웹뷰 쪽에서 네이티브 쪽으로
+/// 네이티브 제스쳐를 중지하라는 신호를 보내므로 웹뷰 스와이퍼만 작동하게 된다.
+/// swipe가 아닌 tap의 중복 송신을 막기 위해서 일단은 이벤트를 cache하고,
+/// drag가 맞다고 판단되는 순간 cache된 이벤트까지 모두 합쳐서 송신한다.
+class InitialDragGestureRecognizer extends OneSequenceGestureRecognizer {
+  InitialDragGestureRecognizer(this.androidViewController);
 
-  /// controller for Android Event.
+  /// 직접 motionEvent를 보내주는 컨트롤러
   AndroidViewController androidViewController;
 
-  final dragDistance = 18.0;
+  /// 드래그 판단 기준
+  final double dragDistance = 18.0;
   bool _isDragging = false;
   PointerDownEvent? _initialEvent;
 
@@ -76,19 +81,19 @@ class InitialGestureRecognizer extends OneSequenceGestureRecognizer {
         xDistance + yDistance >= dragDistance;
   }
 
-  /// 캐시해놓은 이전 event들을 보낸다.
-  void _dispatchCachedEvents(PointerEvent event) {
-    if (cachedEvents.containsKey(event.pointer)) {
-      cachedEvents[event.pointer]!.forEach(_dispatchPointerEvent);
-    }
-  }
-
   /// 포인터 별로 이벤트를 캐시한다.
   void _cacheEvent(PointerEvent event) {
     if (!cachedEvents.containsKey(event.pointer)) {
       cachedEvents[event.pointer] = <PointerEvent>[];
     }
     cachedEvents[event.pointer]!.add(event);
+  }
+
+  /// 캐시해놓은 event가 있다면 모두 dispatch하고 중복을 피하기 위해 지운다.
+  void _dispatchCachedEvents(PointerEvent event) {
+    if (cachedEvents.containsKey(event.pointer)) {
+      cachedEvents.remove(event.pointer)!.forEach(_dispatchPointerEvent);
+    }
   }
 
   /// androidViewController를 이용해 gesture를 accept하지 않고 직접 motionEvent를 보낸다.

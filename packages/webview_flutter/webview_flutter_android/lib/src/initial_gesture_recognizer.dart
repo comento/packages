@@ -14,6 +14,14 @@ class InitialGestureRecognizer extends OneSequenceGestureRecognizer {
 
   /// controller for Android Event.
   AndroidViewController androidViewController;
+
+  Timer? _timer;
+  bool _longPressAccepted = false;
+  int? _primaryPointer;
+
+  final Map<int, List<PointerEvent>> cachedEvents = <int, List<PointerEvent>>{};
+  final Set<int> forwardedPointers = <int>{};
+
   @override
   String get debugDescription => throw UnimplementedError();
 
@@ -21,12 +29,84 @@ class InitialGestureRecognizer extends OneSequenceGestureRecognizer {
   void didStopTrackingLastPointer(int pointer) {}
 
   @override
+  void rejectGesture(int pointer) {
+    print('reject && clear!');
+    if (pointer == _primaryPointer) {
+      _stopTimer();
+    }
+    cachedEvents.clear();
+    forwardedPointers.clear();
+    super.rejectGesture(pointer);
+  }
+
+  @override
+  void addAllowedPointer(PointerDownEvent event) {
+    print('addPointer!');
+    super.addAllowedPointer(event);
+    _primaryPointer = event.pointer;
+    _timer = Timer(
+        const Duration(milliseconds: 40), () => _didExceedDeadline(event));
+  }
+
+  void _didExceedDeadline(PointerDownEvent event) {
+    _longPressAccepted = true;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _stopTimer();
+  }
+
+  void _stopTimer() {
+    if (_timer != null) {
+      _timer!.cancel();
+      _timer = null;
+    }
+  }
+
+  @override
+  void stopTrackingPointer(int pointer) {
+    super.stopTrackingPointer(pointer);
+    forwardedPointers.remove(pointer);
+  }
+
+  @override
   void handleEvent(PointerEvent event) {
-    _dispatchPointerEvent(event);
+    if (_longPressAccepted) {
+      _dispatchCachedEvents(event);
+      _dispatchPointerEvent(event);
+    } else {
+      if (!forwardedPointers.contains(event.pointer)) {
+        print('cached!');
+        _cacheEvent(event);
+      }
+    }
+    if (event is PointerUpEvent) {
+      resolve(GestureDisposition.rejected);
+      _longPressAccepted = false;
+    } else if (event is PointerCancelEvent) {
+      resolve(GestureDisposition.rejected);
+      _longPressAccepted = false;
+    }
     stopTrackingIfPointerNoLongerDown(event);
   }
 
+  void _dispatchCachedEvents(PointerEvent event) {
+    if (cachedEvents.containsKey(event.pointer)) {
+      cachedEvents.remove(event.pointer)!.forEach(_dispatchPointerEvent);
+    }
+  }
+
+  void _cacheEvent(PointerEvent event) {
+    if (!cachedEvents.containsKey(event.pointer)) {
+      cachedEvents[event.pointer] = <PointerEvent>[];
+    }
+    cachedEvents[event.pointer]!.add(event);
+  }
+
   Future<void> _dispatchPointerEvent(PointerEvent event) async {
+    print(event);
     if (event is PointerHoverEvent) {
       return;
     }

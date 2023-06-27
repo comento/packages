@@ -20,7 +20,8 @@ class InitialDragGestureRecognizer extends OneSequenceGestureRecognizer {
   AndroidViewController androidViewController;
 
   /// 드래그 판단 기준
-  final double dragDistance = 18.0;
+  final double dragDistance = 10.0;
+
   bool _isDragging = false;
   PointerDownEvent? _initialEvent;
 

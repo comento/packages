@@ -7,15 +7,14 @@
 // ignore_for_file: avoid_relative_lib_imports
 import 'dart:async';
 import 'dart:typed_data' show Float64List, Int32List, Int64List, Uint8List;
-
 import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:webview_flutter_wkwebview/src/common/web_kit.g.dart';
 
 class _TestWKWebsiteDataStoreHostApiCodec extends StandardMessageCodec {
   const _TestWKWebsiteDataStoreHostApiCodec();
-
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is WKWebsiteDataTypeEnumData) {
@@ -29,7 +28,7 @@ class _TestWKWebsiteDataStoreHostApiCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128:
+      case 128: 
         return WKWebsiteDataTypeEnumData.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -41,37 +40,26 @@ class _TestWKWebsiteDataStoreHostApiCodec extends StandardMessageCodec {
 ///
 /// See https://developer.apple.com/documentation/webkit/wkwebsitedatastore?language=objc.
 abstract class TestWKWebsiteDataStoreHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
-  static const MessageCodec<Object?> codec =
-      _TestWKWebsiteDataStoreHostApiCodec();
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
+  static const MessageCodec<Object?> codec = _TestWKWebsiteDataStoreHostApiCodec();
 
-  void createFromWebViewConfiguration(
-      int identifier, int configurationIdentifier);
+  void createFromWebViewConfiguration(int identifier, int configurationIdentifier);
 
   void createDefaultDataStore(int identifier);
 
-  Future<bool> removeDataOfTypes(
-      int identifier,
-      List<WKWebsiteDataTypeEnumData?> dataTypes,
-      double modificationTimeInSecondsSinceEpoch);
+  Future<bool> removeDataOfTypes(int identifier, List<WKWebsiteDataTypeEnumData?> dataTypes, double modificationTimeInSecondsSinceEpoch);
 
-  static void setup(TestWKWebsiteDataStoreHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestWKWebsiteDataStoreHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKWebsiteDataStoreHostApi.createFromWebViewConfiguration',
-          codec,
+          'dev.flutter.pigeon.WKWebsiteDataStoreHostApi.createFromWebViewConfiguration', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebsiteDataStoreHostApi.createFromWebViewConfiguration was null.');
+          'Argument for dev.flutter.pigeon.WKWebsiteDataStoreHostApi.createFromWebViewConfiguration was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -79,26 +67,21 @@ abstract class TestWKWebsiteDataStoreHostApi {
           final int? arg_configurationIdentifier = (args[1] as int?);
           assert(arg_configurationIdentifier != null,
               'Argument for dev.flutter.pigeon.WKWebsiteDataStoreHostApi.createFromWebViewConfiguration was null, expected non-null int.');
-          api.createFromWebViewConfiguration(
-              arg_identifier!, arg_configurationIdentifier!);
+          api.createFromWebViewConfiguration(arg_identifier!, arg_configurationIdentifier!);
           return <Object?>[];
         });
       }
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKWebsiteDataStoreHostApi.createDefaultDataStore',
-          codec,
+          'dev.flutter.pigeon.WKWebsiteDataStoreHostApi.createDefaultDataStore', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebsiteDataStoreHostApi.createDefaultDataStore was null.');
+          'Argument for dev.flutter.pigeon.WKWebsiteDataStoreHostApi.createDefaultDataStore was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -110,32 +93,25 @@ abstract class TestWKWebsiteDataStoreHostApi {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKWebsiteDataStoreHostApi.removeDataOfTypes',
-          codec,
+          'dev.flutter.pigeon.WKWebsiteDataStoreHostApi.removeDataOfTypes', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebsiteDataStoreHostApi.removeDataOfTypes was null.');
+          'Argument for dev.flutter.pigeon.WKWebsiteDataStoreHostApi.removeDataOfTypes was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
               'Argument for dev.flutter.pigeon.WKWebsiteDataStoreHostApi.removeDataOfTypes was null, expected non-null int.');
-          final List<WKWebsiteDataTypeEnumData?>? arg_dataTypes =
-              (args[1] as List<Object?>?)?.cast<WKWebsiteDataTypeEnumData?>();
+          final List<WKWebsiteDataTypeEnumData?>? arg_dataTypes = (args[1] as List<Object?>?)?.cast<WKWebsiteDataTypeEnumData?>();
           assert(arg_dataTypes != null,
               'Argument for dev.flutter.pigeon.WKWebsiteDataStoreHostApi.removeDataOfTypes was null, expected non-null List<WKWebsiteDataTypeEnumData?>.');
-          final double? arg_modificationTimeInSecondsSinceEpoch =
-              (args[2] as double?);
+          final double? arg_modificationTimeInSecondsSinceEpoch = (args[2] as double?);
           assert(arg_modificationTimeInSecondsSinceEpoch != null,
               'Argument for dev.flutter.pigeon.WKWebsiteDataStoreHostApi.removeDataOfTypes was null, expected non-null double.');
-          final bool output = await api.removeDataOfTypes(arg_identifier!,
-              arg_dataTypes!, arg_modificationTimeInSecondsSinceEpoch!);
+          final bool output = await api.removeDataOfTypes(arg_identifier!, arg_dataTypes!, arg_modificationTimeInSecondsSinceEpoch!);
           return <Object?>[output];
         });
       }
@@ -147,29 +123,24 @@ abstract class TestWKWebsiteDataStoreHostApi {
 ///
 /// See https://developer.apple.com/documentation/uikit/uiview?language=objc.
 abstract class TestUIViewHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   void setBackgroundColor(int identifier, int? value);
 
   void setOpaque(int identifier, bool opaque);
 
-  static void setup(TestUIViewHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestUIViewHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
           'dev.flutter.pigeon.UIViewHostApi.setBackgroundColor', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.UIViewHostApi.setBackgroundColor was null.');
+          'Argument for dev.flutter.pigeon.UIViewHostApi.setBackgroundColor was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -185,14 +156,11 @@ abstract class TestUIViewHostApi {
           'dev.flutter.pigeon.UIViewHostApi.setOpaque', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.UIViewHostApi.setOpaque was null.');
+          'Argument for dev.flutter.pigeon.UIViewHostApi.setOpaque was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -212,8 +180,7 @@ abstract class TestUIViewHostApi {
 ///
 /// See https://developer.apple.com/documentation/uikit/uiscrollview?language=objc.
 abstract class TestUIScrollViewHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   void createFromWebView(int identifier, int webViewIdentifier);
@@ -224,21 +191,17 @@ abstract class TestUIScrollViewHostApi {
 
   void setContentOffset(int identifier, double x, double y);
 
-  static void setup(TestUIScrollViewHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestUIScrollViewHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
           'dev.flutter.pigeon.UIScrollViewHostApi.createFromWebView', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.UIScrollViewHostApi.createFromWebView was null.');
+          'Argument for dev.flutter.pigeon.UIScrollViewHostApi.createFromWebView was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -256,14 +219,11 @@ abstract class TestUIScrollViewHostApi {
           'dev.flutter.pigeon.UIScrollViewHostApi.getContentOffset', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.UIScrollViewHostApi.getContentOffset was null.');
+          'Argument for dev.flutter.pigeon.UIScrollViewHostApi.getContentOffset was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -278,14 +238,11 @@ abstract class TestUIScrollViewHostApi {
           'dev.flutter.pigeon.UIScrollViewHostApi.scrollBy', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.UIScrollViewHostApi.scrollBy was null.');
+          'Argument for dev.flutter.pigeon.UIScrollViewHostApi.scrollBy was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -306,14 +263,11 @@ abstract class TestUIScrollViewHostApi {
           'dev.flutter.pigeon.UIScrollViewHostApi.setContentOffset', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.UIScrollViewHostApi.setContentOffset was null.');
+          'Argument for dev.flutter.pigeon.UIScrollViewHostApi.setContentOffset was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -334,7 +288,6 @@ abstract class TestUIScrollViewHostApi {
 
 class _TestWKWebViewConfigurationHostApiCodec extends StandardMessageCodec {
   const _TestWKWebViewConfigurationHostApiCodec();
-
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is WKAudiovisualMediaTypeEnumData) {
@@ -348,7 +301,7 @@ class _TestWKWebViewConfigurationHostApiCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128:
+      case 128: 
         return WKAudiovisualMediaTypeEnumData.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -360,10 +313,8 @@ class _TestWKWebViewConfigurationHostApiCodec extends StandardMessageCodec {
 ///
 /// See https://developer.apple.com/documentation/webkit/wkwebviewconfiguration?language=objc.
 abstract class TestWKWebViewConfigurationHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
-  static const MessageCodec<Object?> codec =
-      _TestWKWebViewConfigurationHostApiCodec();
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
+  static const MessageCodec<Object?> codec = _TestWKWebViewConfigurationHostApiCodec();
 
   void create(int identifier);
 
@@ -373,24 +324,19 @@ abstract class TestWKWebViewConfigurationHostApi {
 
   void setLimitsNavigationsToAppBoundDomains(int identifier, bool limit);
 
-  void setMediaTypesRequiringUserActionForPlayback(
-      int identifier, List<WKAudiovisualMediaTypeEnumData?> types);
+  void setMediaTypesRequiringUserActionForPlayback(int identifier, List<WKAudiovisualMediaTypeEnumData?> types);
 
-  static void setup(TestWKWebViewConfigurationHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestWKWebViewConfigurationHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
           'dev.flutter.pigeon.WKWebViewConfigurationHostApi.create', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.create was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.create was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -402,18 +348,14 @@ abstract class TestWKWebViewConfigurationHostApi {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKWebViewConfigurationHostApi.createFromWebView',
-          codec,
+          'dev.flutter.pigeon.WKWebViewConfigurationHostApi.createFromWebView', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.createFromWebView was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.createFromWebView was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -428,18 +370,14 @@ abstract class TestWKWebViewConfigurationHostApi {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKWebViewConfigurationHostApi.setAllowsInlineMediaPlayback',
-          codec,
+          'dev.flutter.pigeon.WKWebViewConfigurationHostApi.setAllowsInlineMediaPlayback', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.setAllowsInlineMediaPlayback was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.setAllowsInlineMediaPlayback was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -454,18 +392,14 @@ abstract class TestWKWebViewConfigurationHostApi {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKWebViewConfigurationHostApi.setLimitsNavigationsToAppBoundDomains',
-          codec,
+          'dev.flutter.pigeon.WKWebViewConfigurationHostApi.setLimitsNavigationsToAppBoundDomains', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.setLimitsNavigationsToAppBoundDomains was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.setLimitsNavigationsToAppBoundDomains was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -473,37 +407,29 @@ abstract class TestWKWebViewConfigurationHostApi {
           final bool? arg_limit = (args[1] as bool?);
           assert(arg_limit != null,
               'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.setLimitsNavigationsToAppBoundDomains was null, expected non-null bool.');
-          api.setLimitsNavigationsToAppBoundDomains(
-              arg_identifier!, arg_limit!);
+          api.setLimitsNavigationsToAppBoundDomains(arg_identifier!, arg_limit!);
           return <Object?>[];
         });
       }
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKWebViewConfigurationHostApi.setMediaTypesRequiringUserActionForPlayback',
-          codec,
+          'dev.flutter.pigeon.WKWebViewConfigurationHostApi.setMediaTypesRequiringUserActionForPlayback', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.setMediaTypesRequiringUserActionForPlayback was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.setMediaTypesRequiringUserActionForPlayback was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
               'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.setMediaTypesRequiringUserActionForPlayback was null, expected non-null int.');
-          final List<WKAudiovisualMediaTypeEnumData?>? arg_types =
-              (args[1] as List<Object?>?)
-                  ?.cast<WKAudiovisualMediaTypeEnumData?>();
+          final List<WKAudiovisualMediaTypeEnumData?>? arg_types = (args[1] as List<Object?>?)?.cast<WKAudiovisualMediaTypeEnumData?>();
           assert(arg_types != null,
               'Argument for dev.flutter.pigeon.WKWebViewConfigurationHostApi.setMediaTypesRequiringUserActionForPlayback was null, expected non-null List<WKAudiovisualMediaTypeEnumData?>.');
-          api.setMediaTypesRequiringUserActionForPlayback(
-              arg_identifier!, arg_types!);
+          api.setMediaTypesRequiringUserActionForPlayback(arg_identifier!, arg_types!);
           return <Object?>[];
         });
       }
@@ -513,7 +439,6 @@ abstract class TestWKWebViewConfigurationHostApi {
 
 class _TestWKUserContentControllerHostApiCodec extends StandardMessageCodec {
   const _TestWKUserContentControllerHostApiCodec();
-
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is WKUserScriptData) {
@@ -530,9 +455,9 @@ class _TestWKUserContentControllerHostApiCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128:
+      case 128: 
         return WKUserScriptData.decode(readValue(buffer)!);
-      case 129:
+      case 129: 
         return WKUserScriptInjectionTimeEnumData.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -544,16 +469,12 @@ class _TestWKUserContentControllerHostApiCodec extends StandardMessageCodec {
 ///
 /// See https://developer.apple.com/documentation/webkit/wkusercontentcontroller?language=objc.
 abstract class TestWKUserContentControllerHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
-  static const MessageCodec<Object?> codec =
-      _TestWKUserContentControllerHostApiCodec();
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
+  static const MessageCodec<Object?> codec = _TestWKUserContentControllerHostApiCodec();
 
-  void createFromWebViewConfiguration(
-      int identifier, int configurationIdentifier);
+  void createFromWebViewConfiguration(int identifier, int configurationIdentifier);
 
-  void addScriptMessageHandler(
-      int identifier, int handlerIdentifier, String name);
+  void addScriptMessageHandler(int identifier, int handlerIdentifier, String name);
 
   void removeScriptMessageHandler(int identifier, String name);
 
@@ -563,22 +484,17 @@ abstract class TestWKUserContentControllerHostApi {
 
   void removeAllUserScripts(int identifier);
 
-  static void setup(TestWKUserContentControllerHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestWKUserContentControllerHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKUserContentControllerHostApi.createFromWebViewConfiguration',
-          codec,
+          'dev.flutter.pigeon.WKUserContentControllerHostApi.createFromWebViewConfiguration', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.createFromWebViewConfiguration was null.');
+          'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.createFromWebViewConfiguration was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -586,26 +502,21 @@ abstract class TestWKUserContentControllerHostApi {
           final int? arg_configurationIdentifier = (args[1] as int?);
           assert(arg_configurationIdentifier != null,
               'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.createFromWebViewConfiguration was null, expected non-null int.');
-          api.createFromWebViewConfiguration(
-              arg_identifier!, arg_configurationIdentifier!);
+          api.createFromWebViewConfiguration(arg_identifier!, arg_configurationIdentifier!);
           return <Object?>[];
         });
       }
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKUserContentControllerHostApi.addScriptMessageHandler',
-          codec,
+          'dev.flutter.pigeon.WKUserContentControllerHostApi.addScriptMessageHandler', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.addScriptMessageHandler was null.');
+          'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.addScriptMessageHandler was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -616,26 +527,21 @@ abstract class TestWKUserContentControllerHostApi {
           final String? arg_name = (args[2] as String?);
           assert(arg_name != null,
               'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.addScriptMessageHandler was null, expected non-null String.');
-          api.addScriptMessageHandler(
-              arg_identifier!, arg_handlerIdentifier!, arg_name!);
+          api.addScriptMessageHandler(arg_identifier!, arg_handlerIdentifier!, arg_name!);
           return <Object?>[];
         });
       }
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKUserContentControllerHostApi.removeScriptMessageHandler',
-          codec,
+          'dev.flutter.pigeon.WKUserContentControllerHostApi.removeScriptMessageHandler', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.removeScriptMessageHandler was null.');
+          'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.removeScriptMessageHandler was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -650,18 +556,14 @@ abstract class TestWKUserContentControllerHostApi {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKUserContentControllerHostApi.removeAllScriptMessageHandlers',
-          codec,
+          'dev.flutter.pigeon.WKUserContentControllerHostApi.removeAllScriptMessageHandlers', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.removeAllScriptMessageHandlers was null.');
+          'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.removeAllScriptMessageHandlers was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -673,24 +575,19 @@ abstract class TestWKUserContentControllerHostApi {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKUserContentControllerHostApi.addUserScript',
-          codec,
+          'dev.flutter.pigeon.WKUserContentControllerHostApi.addUserScript', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.addUserScript was null.');
+          'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.addUserScript was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
               'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.addUserScript was null, expected non-null int.');
-          final WKUserScriptData? arg_userScript =
-              (args[1] as WKUserScriptData?);
+          final WKUserScriptData? arg_userScript = (args[1] as WKUserScriptData?);
           assert(arg_userScript != null,
               'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.addUserScript was null, expected non-null WKUserScriptData.');
           api.addUserScript(arg_identifier!, arg_userScript!);
@@ -700,18 +597,14 @@ abstract class TestWKUserContentControllerHostApi {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKUserContentControllerHostApi.removeAllUserScripts',
-          codec,
+          'dev.flutter.pigeon.WKUserContentControllerHostApi.removeAllUserScripts', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.removeAllUserScripts was null.');
+          'Argument for dev.flutter.pigeon.WKUserContentControllerHostApi.removeAllUserScripts was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -728,31 +621,24 @@ abstract class TestWKUserContentControllerHostApi {
 ///
 /// See https://developer.apple.com/documentation/webkit/wkpreferences?language=objc.
 abstract class TestWKPreferencesHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
-  void createFromWebViewConfiguration(
-      int identifier, int configurationIdentifier);
+  void createFromWebViewConfiguration(int identifier, int configurationIdentifier);
 
   void setJavaScriptEnabled(int identifier, bool enabled);
 
-  static void setup(TestWKPreferencesHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestWKPreferencesHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKPreferencesHostApi.createFromWebViewConfiguration',
-          codec,
+          'dev.flutter.pigeon.WKPreferencesHostApi.createFromWebViewConfiguration', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKPreferencesHostApi.createFromWebViewConfiguration was null.');
+          'Argument for dev.flutter.pigeon.WKPreferencesHostApi.createFromWebViewConfiguration was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -760,8 +646,7 @@ abstract class TestWKPreferencesHostApi {
           final int? arg_configurationIdentifier = (args[1] as int?);
           assert(arg_configurationIdentifier != null,
               'Argument for dev.flutter.pigeon.WKPreferencesHostApi.createFromWebViewConfiguration was null, expected non-null int.');
-          api.createFromWebViewConfiguration(
-              arg_identifier!, arg_configurationIdentifier!);
+          api.createFromWebViewConfiguration(arg_identifier!, arg_configurationIdentifier!);
           return <Object?>[];
         });
       }
@@ -771,14 +656,11 @@ abstract class TestWKPreferencesHostApi {
           'dev.flutter.pigeon.WKPreferencesHostApi.setJavaScriptEnabled', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKPreferencesHostApi.setJavaScriptEnabled was null.');
+          'Argument for dev.flutter.pigeon.WKPreferencesHostApi.setJavaScriptEnabled was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -798,27 +680,22 @@ abstract class TestWKPreferencesHostApi {
 ///
 /// See https://developer.apple.com/documentation/webkit/wkscriptmessagehandler?language=objc.
 abstract class TestWKScriptMessageHandlerHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   void create(int identifier);
 
-  static void setup(TestWKScriptMessageHandlerHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestWKScriptMessageHandlerHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
           'dev.flutter.pigeon.WKScriptMessageHandlerHostApi.create', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKScriptMessageHandlerHostApi.create was null.');
+          'Argument for dev.flutter.pigeon.WKScriptMessageHandlerHostApi.create was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -835,27 +712,22 @@ abstract class TestWKScriptMessageHandlerHostApi {
 ///
 /// See https://developer.apple.com/documentation/webkit/wknavigationdelegate?language=objc.
 abstract class TestWKNavigationDelegateHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   void create(int identifier);
 
-  static void setup(TestWKNavigationDelegateHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestWKNavigationDelegateHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
           'dev.flutter.pigeon.WKNavigationDelegateHostApi.create', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKNavigationDelegateHostApi.create was null.');
+          'Argument for dev.flutter.pigeon.WKNavigationDelegateHostApi.create was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -870,7 +742,6 @@ abstract class TestWKNavigationDelegateHostApi {
 
 class _TestNSObjectHostApiCodec extends StandardMessageCodec {
   const _TestNSObjectHostApiCodec();
-
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is NSKeyValueObservingOptionsEnumData) {
@@ -884,7 +755,7 @@ class _TestNSObjectHostApiCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128:
+      case 128: 
         return NSKeyValueObservingOptionsEnumData.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -896,32 +767,26 @@ class _TestNSObjectHostApiCodec extends StandardMessageCodec {
 ///
 /// See https://developer.apple.com/documentation/objectivec/nsobject.
 abstract class TestNSObjectHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
   static const MessageCodec<Object?> codec = _TestNSObjectHostApiCodec();
 
   void dispose(int identifier);
 
-  void addObserver(int identifier, int observerIdentifier, String keyPath,
-      List<NSKeyValueObservingOptionsEnumData?> options);
+  void addObserver(int identifier, int observerIdentifier, String keyPath, List<NSKeyValueObservingOptionsEnumData?> options);
 
   void removeObserver(int identifier, int observerIdentifier, String keyPath);
 
-  static void setup(TestNSObjectHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestNSObjectHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
           'dev.flutter.pigeon.NSObjectHostApi.dispose', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.NSObjectHostApi.dispose was null.');
+          'Argument for dev.flutter.pigeon.NSObjectHostApi.dispose was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -936,14 +801,11 @@ abstract class TestNSObjectHostApi {
           'dev.flutter.pigeon.NSObjectHostApi.addObserver', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.NSObjectHostApi.addObserver was null.');
+          'Argument for dev.flutter.pigeon.NSObjectHostApi.addObserver was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -954,13 +816,10 @@ abstract class TestNSObjectHostApi {
           final String? arg_keyPath = (args[2] as String?);
           assert(arg_keyPath != null,
               'Argument for dev.flutter.pigeon.NSObjectHostApi.addObserver was null, expected non-null String.');
-          final List<NSKeyValueObservingOptionsEnumData?>? arg_options =
-              (args[3] as List<Object?>?)
-                  ?.cast<NSKeyValueObservingOptionsEnumData?>();
+          final List<NSKeyValueObservingOptionsEnumData?>? arg_options = (args[3] as List<Object?>?)?.cast<NSKeyValueObservingOptionsEnumData?>();
           assert(arg_options != null,
               'Argument for dev.flutter.pigeon.NSObjectHostApi.addObserver was null, expected non-null List<NSKeyValueObservingOptionsEnumData?>.');
-          api.addObserver(arg_identifier!, arg_observerIdentifier!,
-              arg_keyPath!, arg_options!);
+          api.addObserver(arg_identifier!, arg_observerIdentifier!, arg_keyPath!, arg_options!);
           return <Object?>[];
         });
       }
@@ -970,14 +829,11 @@ abstract class TestNSObjectHostApi {
           'dev.flutter.pigeon.NSObjectHostApi.removeObserver', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.NSObjectHostApi.removeObserver was null.');
+          'Argument for dev.flutter.pigeon.NSObjectHostApi.removeObserver was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -988,8 +844,7 @@ abstract class TestNSObjectHostApi {
           final String? arg_keyPath = (args[2] as String?);
           assert(arg_keyPath != null,
               'Argument for dev.flutter.pigeon.NSObjectHostApi.removeObserver was null, expected non-null String.');
-          api.removeObserver(
-              arg_identifier!, arg_observerIdentifier!, arg_keyPath!);
+          api.removeObserver(arg_identifier!, arg_observerIdentifier!, arg_keyPath!);
           return <Object?>[];
         });
       }
@@ -999,7 +854,6 @@ abstract class TestNSObjectHostApi {
 
 class _TestWKWebViewHostApiCodec extends StandardMessageCodec {
   const _TestWKWebViewHostApiCodec();
-
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is NSErrorData) {
@@ -1064,41 +918,41 @@ class _TestWKWebViewHostApiCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128:
+      case 128: 
         return NSErrorData.decode(readValue(buffer)!);
-      case 129:
+      case 129: 
         return NSHttpCookieData.decode(readValue(buffer)!);
-      case 130:
+      case 130: 
         return NSHttpCookiePropertyKeyEnumData.decode(readValue(buffer)!);
-      case 131:
+      case 131: 
         return NSKeyValueChangeKeyEnumData.decode(readValue(buffer)!);
-      case 132:
+      case 132: 
         return NSKeyValueObservingOptionsEnumData.decode(readValue(buffer)!);
-      case 133:
+      case 133: 
         return NSUrlRequestData.decode(readValue(buffer)!);
-      case 134:
+      case 134: 
         return ObjectOrIdentifier.decode(readValue(buffer)!);
-      case 135:
+      case 135: 
         return WKAudiovisualMediaTypeEnumData.decode(readValue(buffer)!);
-      case 136:
+      case 136: 
         return WKFrameInfoData.decode(readValue(buffer)!);
-      case 137:
+      case 137: 
         return WKMediaCaptureTypeData.decode(readValue(buffer)!);
-      case 138:
+      case 138: 
         return WKNavigationActionData.decode(readValue(buffer)!);
-      case 139:
+      case 139: 
         return WKNavigationActionPolicyEnumData.decode(readValue(buffer)!);
-      case 140:
+      case 140: 
         return WKPermissionDecisionData.decode(readValue(buffer)!);
-      case 141:
+      case 141: 
         return WKScriptMessageData.decode(readValue(buffer)!);
-      case 142:
+      case 142: 
         return WKSecurityOriginData.decode(readValue(buffer)!);
-      case 143:
+      case 143: 
         return WKUserScriptData.decode(readValue(buffer)!);
-      case 144:
+      case 144: 
         return WKUserScriptInjectionTimeEnumData.decode(readValue(buffer)!);
-      case 145:
+      case 145: 
         return WKWebsiteDataTypeEnumData.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -1110,8 +964,7 @@ class _TestWKWebViewHostApiCodec extends StandardMessageCodec {
 ///
 /// See https://developer.apple.com/documentation/webkit/wkwebview?language=objc.
 abstract class TestWKWebViewHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
   static const MessageCodec<Object?> codec = _TestWKWebViewHostApiCodec();
 
   void create(int identifier, int configurationIdentifier);
@@ -1146,27 +999,27 @@ abstract class TestWKWebViewHostApi {
 
   void setAllowsBackForwardNavigationGestures(int identifier, bool allow);
 
+  void setSupportScrollbar(int identifier, bool support);
+
+  void setSupportOverscroll(int identifier, bool support);
+
   void setCustomUserAgent(int identifier, String? userAgent);
 
   Future<Object?> evaluateJavaScript(int identifier, String javaScriptString);
 
   void setInspectable(int identifier, bool inspectable);
 
-  static void setup(TestWKWebViewHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestWKWebViewHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
           'dev.flutter.pigeon.WKWebViewHostApi.create', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.create was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.create was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1184,14 +1037,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.setUIDelegate', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.setUIDelegate was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.setUIDelegate was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1207,21 +1057,17 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.setNavigationDelegate', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.setNavigationDelegate was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.setNavigationDelegate was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
               'Argument for dev.flutter.pigeon.WKWebViewHostApi.setNavigationDelegate was null, expected non-null int.');
           final int? arg_navigationDelegateIdentifier = (args[1] as int?);
-          api.setNavigationDelegate(
-              arg_identifier!, arg_navigationDelegateIdentifier);
+          api.setNavigationDelegate(arg_identifier!, arg_navigationDelegateIdentifier);
           return <Object?>[];
         });
       }
@@ -1231,14 +1077,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.getUrl', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.getUrl was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.getUrl was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1253,14 +1096,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.getEstimatedProgress', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.getEstimatedProgress was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.getEstimatedProgress was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1275,14 +1115,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.loadRequest', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.loadRequest was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.loadRequest was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1300,14 +1137,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.loadHtmlString', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.loadHtmlString was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.loadHtmlString was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1326,14 +1160,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.loadFileUrl', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.loadFileUrl was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.loadFileUrl was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1354,14 +1185,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.loadFlutterAsset', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.loadFlutterAsset was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.loadFlutterAsset was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1379,14 +1207,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.canGoBack', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.canGoBack was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.canGoBack was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1401,14 +1226,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.canGoForward', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.canGoForward was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.canGoForward was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1423,14 +1245,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.goBack', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.goBack was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.goBack was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1445,14 +1264,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.goForward', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.goForward was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.goForward was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1467,14 +1283,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.reload', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.reload was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.reload was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1489,14 +1302,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.getTitle', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.getTitle was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.getTitle was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1508,18 +1318,14 @@ abstract class TestWKWebViewHostApi {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKWebViewHostApi.setAllowsBackForwardNavigationGestures',
-          codec,
+          'dev.flutter.pigeon.WKWebViewHostApi.setAllowsBackForwardNavigationGestures', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.setAllowsBackForwardNavigationGestures was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.setAllowsBackForwardNavigationGestures was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1527,8 +1333,51 @@ abstract class TestWKWebViewHostApi {
           final bool? arg_allow = (args[1] as bool?);
           assert(arg_allow != null,
               'Argument for dev.flutter.pigeon.WKWebViewHostApi.setAllowsBackForwardNavigationGestures was null, expected non-null bool.');
-          api.setAllowsBackForwardNavigationGestures(
-              arg_identifier!, arg_allow!);
+          api.setAllowsBackForwardNavigationGestures(arg_identifier!, arg_allow!);
+          return <Object?>[];
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.WKWebViewHostApi.setSupportScrollbar', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.setSupportScrollbar was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final int? arg_identifier = (args[0] as int?);
+          assert(arg_identifier != null,
+              'Argument for dev.flutter.pigeon.WKWebViewHostApi.setSupportScrollbar was null, expected non-null int.');
+          final bool? arg_support = (args[1] as bool?);
+          assert(arg_support != null,
+              'Argument for dev.flutter.pigeon.WKWebViewHostApi.setSupportScrollbar was null, expected non-null bool.');
+          api.setSupportScrollbar(arg_identifier!, arg_support!);
+          return <Object?>[];
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.WKWebViewHostApi.setSupportOverscroll', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.setSupportOverscroll was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final int? arg_identifier = (args[0] as int?);
+          assert(arg_identifier != null,
+              'Argument for dev.flutter.pigeon.WKWebViewHostApi.setSupportOverscroll was null, expected non-null int.');
+          final bool? arg_support = (args[1] as bool?);
+          assert(arg_support != null,
+              'Argument for dev.flutter.pigeon.WKWebViewHostApi.setSupportOverscroll was null, expected non-null bool.');
+          api.setSupportOverscroll(arg_identifier!, arg_support!);
           return <Object?>[];
         });
       }
@@ -1538,14 +1387,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.setCustomUserAgent', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.setCustomUserAgent was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.setCustomUserAgent was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1561,14 +1407,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.evaluateJavaScript', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.evaluateJavaScript was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.evaluateJavaScript was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1576,8 +1419,7 @@ abstract class TestWKWebViewHostApi {
           final String? arg_javaScriptString = (args[1] as String?);
           assert(arg_javaScriptString != null,
               'Argument for dev.flutter.pigeon.WKWebViewHostApi.evaluateJavaScript was null, expected non-null String.');
-          final Object? output = await api.evaluateJavaScript(
-              arg_identifier!, arg_javaScriptString!);
+          final Object? output = await api.evaluateJavaScript(arg_identifier!, arg_javaScriptString!);
           return <Object?>[output];
         });
       }
@@ -1587,14 +1429,11 @@ abstract class TestWKWebViewHostApi {
           'dev.flutter.pigeon.WKWebViewHostApi.setInspectable', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKWebViewHostApi.setInspectable was null.');
+          'Argument for dev.flutter.pigeon.WKWebViewHostApi.setInspectable was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1614,27 +1453,22 @@ abstract class TestWKWebViewHostApi {
 ///
 /// See https://developer.apple.com/documentation/webkit/wkuidelegate?language=objc.
 abstract class TestWKUIDelegateHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   void create(int identifier);
 
-  static void setup(TestWKUIDelegateHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestWKUIDelegateHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
           'dev.flutter.pigeon.WKUIDelegateHostApi.create', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKUIDelegateHostApi.create was null.');
+          'Argument for dev.flutter.pigeon.WKUIDelegateHostApi.create was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1649,7 +1483,6 @@ abstract class TestWKUIDelegateHostApi {
 
 class _TestWKHttpCookieStoreHostApiCodec extends StandardMessageCodec {
   const _TestWKHttpCookieStoreHostApiCodec();
-
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is NSHttpCookieData) {
@@ -1666,9 +1499,9 @@ class _TestWKHttpCookieStoreHostApiCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128:
+      case 128: 
         return NSHttpCookieData.decode(readValue(buffer)!);
-      case 129:
+      case 129: 
         return NSHttpCookiePropertyKeyEnumData.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -1680,32 +1513,24 @@ class _TestWKHttpCookieStoreHostApiCodec extends StandardMessageCodec {
 ///
 /// See https://developer.apple.com/documentation/webkit/wkhttpcookiestore?language=objc.
 abstract class TestWKHttpCookieStoreHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
-  static const MessageCodec<Object?> codec =
-      _TestWKHttpCookieStoreHostApiCodec();
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
+  static const MessageCodec<Object?> codec = _TestWKHttpCookieStoreHostApiCodec();
 
-  void createFromWebsiteDataStore(
-      int identifier, int websiteDataStoreIdentifier);
+  void createFromWebsiteDataStore(int identifier, int websiteDataStoreIdentifier);
 
   Future<void> setCookie(int identifier, NSHttpCookieData cookie);
 
-  static void setup(TestWKHttpCookieStoreHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestWKHttpCookieStoreHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.WKHttpCookieStoreHostApi.createFromWebsiteDataStore',
-          codec,
+          'dev.flutter.pigeon.WKHttpCookieStoreHostApi.createFromWebsiteDataStore', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKHttpCookieStoreHostApi.createFromWebsiteDataStore was null.');
+          'Argument for dev.flutter.pigeon.WKHttpCookieStoreHostApi.createFromWebsiteDataStore was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1713,8 +1538,7 @@ abstract class TestWKHttpCookieStoreHostApi {
           final int? arg_websiteDataStoreIdentifier = (args[1] as int?);
           assert(arg_websiteDataStoreIdentifier != null,
               'Argument for dev.flutter.pigeon.WKHttpCookieStoreHostApi.createFromWebsiteDataStore was null, expected non-null int.');
-          api.createFromWebsiteDataStore(
-              arg_identifier!, arg_websiteDataStoreIdentifier!);
+          api.createFromWebsiteDataStore(arg_identifier!, arg_websiteDataStoreIdentifier!);
           return <Object?>[];
         });
       }
@@ -1724,14 +1548,11 @@ abstract class TestWKHttpCookieStoreHostApi {
           'dev.flutter.pigeon.WKHttpCookieStoreHostApi.setCookie', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.WKHttpCookieStoreHostApi.setCookie was null.');
+          'Argument for dev.flutter.pigeon.WKHttpCookieStoreHostApi.setCookie was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,
@@ -1755,8 +1576,7 @@ abstract class TestWKHttpCookieStoreHostApi {
 ///
 /// See https://developer.apple.com/documentation/foundation/nsurl?language=objc.
 abstract class TestNSUrlHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   String? getAbsoluteString(int identifier);
@@ -1767,14 +1587,11 @@ abstract class TestNSUrlHostApi {
           'dev.flutter.pigeon.NSUrlHostApi.getAbsoluteString', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.NSUrlHostApi.getAbsoluteString was null.');
+          'Argument for dev.flutter.pigeon.NSUrlHostApi.getAbsoluteString was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_identifier = (args[0] as int?);
           assert(arg_identifier != null,

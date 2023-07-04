@@ -190,7 +190,6 @@ abstract class TestCookieManagerHostApi {
 
 class _TestWebViewHostApiCodec extends StandardMessageCodec {
   const _TestWebViewHostApiCodec();
-
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is WebViewPoint) {
@@ -1525,29 +1524,23 @@ abstract class TestPermissionRequestHostApi {
 ///
 /// See https://developer.android.com/reference/android/webkit/GeolocationPermissions.Callback.
 abstract class TestGeolocationPermissionsCallbackHostApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
-      TestDefaultBinaryMessengerBinding.instance;
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   /// Handles Dart method `GeolocationPermissionsCallback.invoke`.
   void invoke(int instanceId, String origin, bool allow, bool retain);
 
-  static void setup(TestGeolocationPermissionsCallbackHostApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(TestGeolocationPermissionsCallbackHostApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.GeolocationPermissionsCallbackHostApi.invoke',
-          codec,
+          'dev.flutter.pigeon.GeolocationPermissionsCallbackHostApi.invoke', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger
-            .setMockDecodedMessageHandler<Object?>(channel,
-                (Object? message) async {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(channel, (Object? message) async {
           assert(message != null,
-              'Argument for dev.flutter.pigeon.GeolocationPermissionsCallbackHostApi.invoke was null.');
+          'Argument for dev.flutter.pigeon.GeolocationPermissionsCallbackHostApi.invoke was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_instanceId = (args[0] as int?);
           assert(arg_instanceId != null,

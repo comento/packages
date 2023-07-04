@@ -1,3 +1,9 @@
+## 1.0.10
+
+* Fixes stale ignore: prefer_const_constructors.
+* Updates minimum supported SDK version to Flutter 3.10/Dart 3.0.
+* Changes package internals to avoid explicit `as Uint8List` downcast.
+
 ## 1.0.9
 
 * Updates minimum supported SDK version to Flutter 3.3/Dart 2.18.

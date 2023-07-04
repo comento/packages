@@ -118,11 +118,8 @@ void main() {
     );
 
     expect(configuration.namedLocation('lowercase'), '/abc');
-    expect(configuration.namedLocation('LOWERCASE'), '/abc');
     expect(configuration.namedLocation('camelCase'), '/efg');
-    expect(configuration.namedLocation('camelcase'), '/efg');
     expect(configuration.namedLocation('snake_case'), '/hij');
-    expect(configuration.namedLocation('SNAKE_CASE'), '/hij');
 
     // With query parameters
     expect(configuration.namedLocation('lowercase'), '/abc');
@@ -201,7 +198,7 @@ void main() {
     expect(matchesObj.uri.toString(), '/def');
     expect(matchesObj.extra, isNull);
     expect(matchesObj.error!.toString(),
-        'Exception: no routes for location: /def');
+        'GoException: no routes for location: /def');
   });
 
   testWidgets(

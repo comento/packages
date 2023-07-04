@@ -24,7 +24,7 @@ dependencies:
     git:
       url: git@github.com:comento/packages.git
       path: packages/webview_flutter/webview_flutter_platform_interface
-      ref: feature/webview-custom
+      ref: feature/webview-custom-3.6.0
 
 dev_dependencies:
   build_runner: ^2.1.5

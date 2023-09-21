@@ -386,6 +386,15 @@ class MockAndroidWebViewController extends _i1.Mock
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
   @override
+  _i5.Future<void> enableScrollbar(bool? enabled) => (super.noSuchMethod(
+        Invocation.method(
+          #enableScrollbar,
+          [enabled],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+  @override
   _i5.Future<void> setBackgroundColor(_i4.Color? color) => (super.noSuchMethod(
         Invocation.method(
           #setBackgroundColor,

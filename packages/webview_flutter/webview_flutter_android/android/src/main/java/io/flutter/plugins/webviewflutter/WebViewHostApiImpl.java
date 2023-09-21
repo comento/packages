@@ -415,6 +415,13 @@ public class WebViewHostApiImpl implements WebViewHostApi {
     webView.setBackgroundColor(color.intValue());
   }
 
+  @Override
+  public void setSupportScrollbar(@NonNull Long instanceId, @NonNull Boolean support) {
+    final WebView webView = Objects.requireNonNull(instanceManager.getInstance(instanceId));
+    webView.setVerticalScrollBarEnabled(support);
+  }
+
+
   /** Maintains instances used to communicate with the corresponding WebView Dart object. */
   @NonNull
   public InstanceManager getInstanceManager() {

@@ -1087,6 +1087,22 @@ class WKWebView extends UIView {
     );
   }
 
+  /// setSupportScrollbar
+  Future<void> setSupportScrollbar(bool support) {
+    return _webViewApi.setSupportScrollbarForInstances(
+      this,
+      support,
+    );
+  }
+
+  /// setSupportOverscroll
+  Future<void> setSupportOverscroll(bool support) {
+    return _webViewApi.setSupportOverscrollForInstances(
+      this,
+      support,
+    );
+  }
+
   /// The custom user agent string.
   ///
   /// The default value of this property is null.

@@ -5,7 +5,6 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show BinaryMessenger;
-
 import 'package:flutter/widgets.dart' show WidgetsFlutterBinding;
 
 import 'android_webview.g.dart';
@@ -442,6 +441,11 @@ class WebView extends View {
   /// Sets the background color of this WebView.
   Future<void> setBackgroundColor(Color color) {
     return api.setBackgroundColorFromInstance(this, color.value);
+  }
+
+  /// setSupportScrollbar
+  Future<void> setSupportScrollbar(bool support) {
+    return api.setSupportScrollbarFromInstance(this, support);
   }
 
   @override

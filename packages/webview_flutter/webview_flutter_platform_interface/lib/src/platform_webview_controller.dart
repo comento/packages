@@ -243,6 +243,12 @@ abstract class PlatformWebViewController extends PlatformInterface {
         'enableZoom is not implemented on the current platform');
   }
 
+  /// enableScrollbar
+  Future<void> enableScrollbar(bool enabled) {
+    throw UnimplementedError(
+        'enableScrollbar is not implemented on the current platform');
+  }
+
   /// Set the current background color of this view.
   Future<void> setBackgroundColor(Color color) {
     throw UnimplementedError(

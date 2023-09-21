@@ -650,6 +650,15 @@ class MockAndroidWebViewController extends _i1.Mock
         returnValueForMissingStub: _i9.Future<void>.value(),
       ) as _i9.Future<void>);
   @override
+  _i9.Future<void> enableScrollbar(bool? enabled) => (super.noSuchMethod(
+        Invocation.method(
+          #enableScrollbar,
+          [enabled],
+        ),
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
+  @override
   _i9.Future<void> setBackgroundColor(_i4.Color? color) => (super.noSuchMethod(
         Invocation.method(
           #setBackgroundColor,
@@ -1868,6 +1877,15 @@ class MockWebSettings extends _i1.Mock implements _i2.WebSettings {
   _i9.Future<void> setSupportZoom(bool? support) => (super.noSuchMethod(
         Invocation.method(
           #setSupportZoom,
+          [support],
+        ),
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
+  @override
+  _i9.Future<void> setSupportScrollbar(bool? support) => (super.noSuchMethod(
+        Invocation.method(
+          #setSupportScrollbar,
           [support],
         ),
         returnValue: _i9.Future<void>.value(),

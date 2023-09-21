@@ -452,6 +452,16 @@ class WebKitWebViewController extends PlatformWebViewController {
   }
 
   @override
+  Future<void> enableScrollbar(bool enabled) {
+    return _webView.setSupportScrollbar(enabled);
+  }
+
+  /// enableOverscroll
+  Future<void> enableOverscroll(bool enabled) {
+    return _webView.setSupportOverscroll(enabled);
+  }
+
+  @override
   Future<void> setBackgroundColor(Color color) {
     return Future.wait(<Future<void>>[
       _webView.setOpaque(false),

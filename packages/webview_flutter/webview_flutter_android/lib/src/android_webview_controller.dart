@@ -13,6 +13,7 @@ import 'package:webview_flutter_platform_interface/webview_flutter_platform_inte
 
 import 'android_proxy.dart';
 import 'android_webview.dart' as android_webview;
+import 'initial_gesture_recognizer.dart';
 import 'instance_manager.dart';
 import 'platform_views_service_proxy.dart';
 import 'weak_reference_utils.dart';
@@ -39,8 +40,9 @@ class AndroidWebViewControllerCreationParams
     // ignore: avoid_unused_constructor_parameters
     PlatformWebViewControllerCreationParams params, {
     @visibleForTesting
-    AndroidWebViewProxy androidWebViewProxy = const AndroidWebViewProxy(),
-    @visibleForTesting android_webview.WebStorage? androidWebStorage,
+        AndroidWebViewProxy androidWebViewProxy = const AndroidWebViewProxy(),
+    @visibleForTesting
+        android_webview.WebStorage? androidWebStorage,
   }) {
     return AndroidWebViewControllerCreationParams(
       androidWebViewProxy: androidWebViewProxy,
@@ -261,7 +263,7 @@ class AndroidWebViewController extends PlatformWebViewController {
   static Future<void> enableDebugging(
     bool enabled, {
     @visibleForTesting
-    AndroidWebViewProxy webViewProxy = const AndroidWebViewProxy(),
+        AndroidWebViewProxy webViewProxy = const AndroidWebViewProxy(),
   }) {
     return webViewProxy.setWebContentsDebuggingEnabled(enabled);
   }
@@ -460,6 +462,10 @@ class AndroidWebViewController extends PlatformWebViewController {
   @override
   Future<void> enableZoom(bool enabled) =>
       _webView.settings.setSupportZoom(enabled);
+
+  @override
+  Future<void> enableScrollbar(bool enabled) =>
+      _webView.setSupportScrollbar(enabled);
 
   @override
   Future<void> setBackgroundColor(Color color) =>
@@ -722,7 +728,7 @@ class AndroidJavaScriptChannelParams extends JavaScriptChannelParams {
     required super.name,
     required super.onMessageReceived,
     @visibleForTesting
-    AndroidWebViewProxy webViewProxy = const AndroidWebViewProxy(),
+        AndroidWebViewProxy webViewProxy = const AndroidWebViewProxy(),
   })  : assert(name.isNotEmpty),
         _javaScriptChannel = webViewProxy.createJavaScriptChannel(
           name,
@@ -747,7 +753,7 @@ class AndroidJavaScriptChannelParams extends JavaScriptChannelParams {
   AndroidJavaScriptChannelParams.fromJavaScriptChannelParams(
     JavaScriptChannelParams params, {
     @visibleForTesting
-    AndroidWebViewProxy webViewProxy = const AndroidWebViewProxy(),
+        AndroidWebViewProxy webViewProxy = const AndroidWebViewProxy(),
   }) : this(
           name: params.name,
           onMessageReceived: params.onMessageReceived,
@@ -772,9 +778,10 @@ class AndroidWebViewWidgetCreationParams
     super.layoutDirection,
     super.gestureRecognizers,
     this.displayWithHybridComposition = false,
-    @visibleForTesting InstanceManager? instanceManager,
     @visibleForTesting
-    this.platformViewsServiceProxy = const PlatformViewsServiceProxy(),
+        InstanceManager? instanceManager,
+    @visibleForTesting
+        this.platformViewsServiceProxy = const PlatformViewsServiceProxy(),
   }) : instanceManager =
             instanceManager ?? android_webview.JavaObject.globalInstanceManager;
 
@@ -873,7 +880,14 @@ class AndroidWebViewWidget extends PlatformWebViewWidget {
       ) {
         return AndroidViewSurface(
           controller: controller as AndroidViewController,
-          gestureRecognizers: _androidParams.gestureRecognizers,
+          gestureRecognizers: _androidParams.gestureRecognizers.isEmpty
+              ? const <Factory<OneSequenceGestureRecognizer>>{}
+              : <Factory<OneSequenceGestureRecognizer>>{
+                  Factory<InitialDragGestureRecognizer>(
+                    () => InitialDragGestureRecognizer(controller),
+                  ),
+                  ..._androidParams.gestureRecognizers,
+                },
           hitTestBehavior: PlatformViewHitTestBehavior.opaque,
         );
       },
@@ -1109,7 +1123,7 @@ class AndroidNavigationDelegateCreationParams
     // ignore: avoid_unused_constructor_parameters
     PlatformNavigationDelegateCreationParams params, {
     @visibleForTesting
-    AndroidWebViewProxy androidWebViewProxy = const AndroidWebViewProxy(),
+        AndroidWebViewProxy androidWebViewProxy = const AndroidWebViewProxy(),
   }) {
     return AndroidNavigationDelegateCreationParams._(
       androidWebViewProxy: androidWebViewProxy,

@@ -339,6 +339,11 @@ class WebViewController {
     return platform.enableZoom(enabled);
   }
 
+  /// enableScrollbar
+  Future<void> enableScrollbar(bool enabled) {
+    return platform.enableScrollbar(enabled);
+  }
+
   /// Sets the current background color of this view.
   Future<void> setBackgroundColor(Color color) {
     return platform.setBackgroundColor(color);

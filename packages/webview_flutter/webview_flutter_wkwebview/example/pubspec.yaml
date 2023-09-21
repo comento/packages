@@ -11,7 +11,10 @@ dependencies:
     sdk: flutter
   path_provider: ^2.0.6
   webview_flutter_platform_interface:
-    path: ../../webview_flutter_platform_interface
+    git:
+      url: git@github.com:comento/packages.git
+      path: packages/webview_flutter/webview_flutter_platform_interface
+      ref: feature/webview-custom
   webview_flutter_wkwebview:
     # When depending on this package from a real application you should use:
     #   webview_flutter: ^x.y.z

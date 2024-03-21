@@ -242,6 +242,9 @@ class InitialDragGestureRecognizer extends OneSequenceGestureRecognizer {
       case PointerDeviceKind.invertedStylus:
         toolType = AndroidPointerProperties.kToolTypeEraser;
         break;
+      case PointerDeviceKind.trackpad:
+        toolType = AndroidPointerProperties.kToolTypeFinger;
+        break;
       case PointerDeviceKind.unknown:
         toolType = AndroidPointerProperties.kToolTypeUnknown;
         break;

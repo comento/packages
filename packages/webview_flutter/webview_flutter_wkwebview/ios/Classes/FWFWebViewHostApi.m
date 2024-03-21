@@ -276,19 +276,19 @@
 }
 
 - (void)
-    setSupportScrollbarForWebViewWithIdentifier:(nonnull NSNumber *)identifier
-                                        support:(nonnull NSNumber *)allow
+    setSupportScrollbarForWebViewWithIdentifier:(NSInteger)identifier
+                                        support:(BOOL)allow
                                            error:(FlutterError *_Nullable __autoreleasing *_Nonnull)
                                                      error {
-  [self webViewForIdentifier:identifier].scrollView.showsVerticalScrollIndicator = [self webViewForIdentifier:identifier].scrollView.showsHorizontalScrollIndicator = allow.boolValue;
+  [self webViewForIdentifier:identifier].scrollView.showsVerticalScrollIndicator = [self webViewForIdentifier:identifier].scrollView.showsHorizontalScrollIndicator = allow;
 }
 
 - (void)
-    setSupportOverscrollForWebViewWithIdentifier:(nonnull NSNumber *)identifier
-                                        support:(nonnull NSNumber *)allow
+    setSupportOverscrollForWebViewWithIdentifier:(NSInteger)identifier
+                                        support:(BOOL)allow
                                            error:(FlutterError *_Nullable __autoreleasing *_Nonnull)
                                                      error {
-  [self webViewForIdentifier:identifier].scrollView.bounces = allow.boolValue;
+  [self webViewForIdentifier:identifier].scrollView.bounces = allow;
 }
 
 
